@@ -111,3 +111,11 @@ def grn(data, headers):
     )
 
     return data
+
+
+def prometheus(data, headers):
+    from pprint import pprint
+    pprint(data)
+    pprint(headers)
+
+    return data
