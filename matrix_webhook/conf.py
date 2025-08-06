@@ -72,7 +72,7 @@ key.add_argument(
     **(
         {"default": os.environ["API_KEY"]}
         if "API_KEY" in os.environ
-        else {"required": True}
+        else {}
     ),
 )
 key.add_argument(
@@ -81,7 +81,7 @@ key.add_argument(
     **(
         {"default": os.environ["API_KEY_FILE"]}
         if "API_KEY_FILE" in os.environ
-        else {"required": True}
+        else {}
     ),
 )
 parser.add_argument(
