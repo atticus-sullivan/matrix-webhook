@@ -68,6 +68,15 @@ parser.add_argument(
     ),
 )
 parser.add_argument(
+    "--https-proxy",
+    help="https proxy to use. Environment variable: `https_proxy`",
+    **(
+        {"default": os.environ["https_proxy"]}
+        if "https_proxy" in os.environ
+        else {}
+    ),
+)
+parser.add_argument(
     "-v",
     "--verbose",
     action="count",
@@ -85,3 +94,4 @@ MATRIX_PW = args.matrix_pw
 MATRIX_TOKEN = args.matrix_token
 API_KEY = args.api_key
 VERBOSE = args.verbose
+PROXY = args.https_proxy
