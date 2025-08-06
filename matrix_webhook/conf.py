@@ -116,18 +116,18 @@ MATRIX_ID = args.matrix_id
 
 if args.matrix_pw_file:
     with open(args.matrix_pw_file, "r") as f:
-        MATRIX_PW = f.read()
+        MATRIX_PW = f.read().strip()
 else:
     MATRIX_PW = args.matrix_pw
 if args.matrix_token_file:
     with open(args.matrix_token_file, "r") as f:
-        MATRIX_TOKEN = f.read()
+        MATRIX_TOKEN = f.read().strip()
 else:
     MATRIX_TOKEN = args.matrix_token
 
 if args.api_key_file:
     with open(args.api_key_file, "r") as f:
-        API_KEY = f.read()
+        API_KEY = f.read().strip()
 else:
     API_KEY = args.api_key
 
