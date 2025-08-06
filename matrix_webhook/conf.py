@@ -41,7 +41,7 @@ parser.add_argument(
     ),
 )
 auth = parser.add_mutually_exclusive_group(
-    required=all(v not in os.environ for v in ["MATRIX_PW", "MATRIX_TOKEN"]),
+    required=all(v not in os.environ for v in ["MATRIX_PW", "MATRIX_PW_FILE", "MATRIX_TOKEN", "MATRIX_TOKEN_FILE"]),
 )
 auth.add_argument(
     "-p",
@@ -51,19 +51,38 @@ auth.add_argument(
     **({"default": os.environ["MATRIX_PW"]} if "MATRIX_PW" in os.environ else {}),
 )
 auth.add_argument(
+    "-p",
+    "--matrix-pw-file",
+    help="matrix password. Either this or token required. "
+    "Environment variable: `MATRIX_PW_FILE`",
+    **({"default": os.environ["MATRIX_PW_FILE"]} if "MATRIX_PW_FILE" in os.environ else {}),
+)
+auth.add_argument(
     "-t",
     "--matrix-token",
     help="matrix access token. Either this or password required. "
     "Environment variable: `MATRIX_TOKEN`",
     **({"default": os.environ["MATRIX_TOKEN"]} if "MATRIX_TOKEN" in os.environ else {}),
 )
-parser.add_argument(
+key = parser.add_mutually_exclusive_group(
+    required=all(v not in os.environ for v in ["API_KEY", "API_KEY_FILE"]),
+)
+key.add_argument(
     "-k",
     "--api-key",
     help="shared secret to use this service. Required. Environment variable: `API_KEY`",
     **(
         {"default": os.environ["API_KEY"]}
         if "API_KEY" in os.environ
+        else {"required": True}
+    ),
+)
+key.add_argument(
+    "--api-key-file",
+    help="shared secret to use this service. Required. Environment variable: `API_KEY_FILE`",
+    **(
+        {"default": os.environ["API_KEY_FILE"]}
+        if "API_KEY_FILE" in os.environ
         else {"required": True}
     ),
 )
@@ -90,8 +109,23 @@ SERVER_ADDRESS = (args.host, args.port)
 SERVER_PATH = args.server_path
 MATRIX_URL = args.matrix_url
 MATRIX_ID = args.matrix_id
-MATRIX_PW = args.matrix_pw
-MATRIX_TOKEN = args.matrix_token
-API_KEY = args.api_key
+
+if args.matrix_pw_file:
+    with open(args.matrix_pw_file, "r") as f:
+        MATRIX_PW = f.read()
+else:
+    MATRIX_PW = args.matrix_pw
+if args.matrix_token_file:
+    with open(args.matrix_token_file, "r") as f:
+        MATRIX_TOKEN = f.read()
+else:
+    MATRIX_TOKEN = args.matrix_token
+
+if args.api_key_file:
+    with open(args.api_key_file, "r") as f:
+        API_KEY = f.read()
+else:
+    API_KEY = args.api_key
+
 VERBOSE = args.verbose
 PROXY = args.https_proxy
