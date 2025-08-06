@@ -62,6 +62,12 @@ auth.add_argument(
     "Environment variable: `MATRIX_TOKEN`",
     **({"default": os.environ["MATRIX_TOKEN"]} if "MATRIX_TOKEN" in os.environ else {}),
 )
+auth.add_argument(
+    "--matrix-token-file",
+    help="matrix access token. Either this or password required. "
+    "Environment variable: `MATRIX_TOKEN_FILE`",
+    **({"default": os.environ["MATRIX_TOKEN_FILE"]} if "MATRIX_TOKEN_FILE" in os.environ else {}),
+)
 key = parser.add_mutually_exclusive_group(
     required=all(v not in os.environ for v in ["API_KEY", "API_KEY_FILE"]),
 )
