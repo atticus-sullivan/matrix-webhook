@@ -44,14 +44,12 @@ auth = parser.add_mutually_exclusive_group(
     required=all(v not in os.environ for v in ["MATRIX_PW", "MATRIX_PW_FILE", "MATRIX_TOKEN", "MATRIX_TOKEN_FILE"]),
 )
 auth.add_argument(
-    "-p",
     "--matrix-pw",
     help="matrix password. Either this or token required. "
     "Environment variable: `MATRIX_PW`",
     **({"default": os.environ["MATRIX_PW"]} if "MATRIX_PW" in os.environ else {}),
 )
 auth.add_argument(
-    "-p",
     "--matrix-pw-file",
     help="matrix password. Either this or token required. "
     "Environment variable: `MATRIX_PW_FILE`",
